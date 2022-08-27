@@ -1,0 +1,15 @@
+.headerOrder{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    p{
+        font-size: 18px;
+        line-height: 35px;
+    }
+}
+.search{
+    position: fixed;
+    top: 51px;
+    right: 40px;
+}

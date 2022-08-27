@@ -1,0 +1,21 @@
+.pageDashBoard{
+    .title{
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+    .itemStatistics{
+        border: 1px solid #333333;
+        padding: 10px;
+    }
+    .chart{
+        margin-top: 30px;
+        position: relative;
+        margin-bottom: 30px;
+        .switch{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
