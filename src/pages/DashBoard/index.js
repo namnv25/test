@@ -66,8 +66,11 @@ const DashBoard = () => {
   };
 
   const getRevenueToday = today();
+
   const getRevenueLastWeek = lastWeek();
+
   const getRevenueLastMonth = lastMonth();
+
   if (isLoading) return;
   return (
     <MainLayout>
@@ -77,19 +80,26 @@ const DashBoard = () => {
           <Col span={8}>
             <div className={styles.itemStatistics}>
               <div>Today</div>
-              <div>$1456 / 9 orders</div>
+              <div>
+                ${getRevenueToday.total} / {getRevenueToday.orders} orders
+              </div>
             </div>
           </Col>
           <Col span={8}>
             <div className={styles.itemStatistics}>
               <div>Last Week</div>
-              <div>$1456 / 9 orders</div>
+              <div>
+                ${getRevenueLastWeek.total} / {getRevenueLastWeek.orders} orders
+              </div>
             </div>
           </Col>
           <Col span={8}>
             <div className={styles.itemStatistics}>
               <div>Last Month</div>
-              <div>$1456 / 9 orders</div>
+              <div>
+                ${getRevenueLastMonth.total} / {getRevenueLastMonth.orders}{" "}
+                orders
+              </div>
             </div>
           </Col>
         </Row>

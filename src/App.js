@@ -4,10 +4,11 @@ import DashBoard from "./pages/DashBoard";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import "antd/dist/antd.css";
-import MainLayout from "./Components/MainLayout";
+import { createBrowserHistory } from "history";
+export const history = createBrowserHistory();
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div>
         <Switch>
           <Route path="/login">

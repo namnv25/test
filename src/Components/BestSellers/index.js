@@ -31,7 +31,7 @@ const BestSellers = ({ data }) => {
   return (
     <>
       <div className="title">BestSellers</div>
-      <Table dataSource={data} columns={columns} />
+      <Table dataSource={data} columns={columns} pagination={false} />
     </>
   );
 };
