@@ -4,7 +4,7 @@ import { Button, Form, Input } from "antd";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 const Login = () => {
-  let history = useHistory();
+  const history = useHistory();
   const onFinish = (values) => {
     console.log("Success:", values);
     axios
@@ -12,7 +12,7 @@ const Login = () => {
       .then(function (response) {
         localStorage.setItem("token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
-        history.push("/");
+        history.push("/dashboard");
       })
       .catch(function (error) {
         console.log(error);

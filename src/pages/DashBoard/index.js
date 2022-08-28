@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Row, Col, Switch } from "antd";
+import { Row, Col, Switch, Spin } from "antd";
 import ChartDashBoard from "../../Components/ChartDashBoard";
 import BestSellers from "../../Components/BestSellers";
 import MainLayout from "../../Components/MainLayout";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useHistory } from "react-router-dom";
 const DashBoard = () => {
+  const history = useHistory();
   const [months, setMonths] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
@@ -27,7 +29,11 @@ const DashBoard = () => {
         setDashBoard(res.data.dashboard);
         setIsLoading(false);
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        if (err.response.status === 401) {
+          history.push("/");
+        }
+      });
   }, [token]);
   const today = () => {
     let index = 0;
@@ -71,46 +77,50 @@ const DashBoard = () => {
 
   const getRevenueLastMonth = lastMonth();
 
-  if (isLoading) return;
   return (
     <MainLayout>
-      <div className={styles.pageDashBoard}>
-        <div className="title">DashBoard</div>
-        <Row gutter={[24, 24]}>
-          <Col span={8}>
-            <div className={styles.itemStatistics}>
-              <div>Today</div>
-              <div>
-                ${getRevenueToday.total} / {getRevenueToday.orders} orders
+      {isLoading ? (
+        <Spin />
+      ) : (
+        <div className={styles.pageDashBoard}>
+          <div className="title">DashBoard</div>
+          <Row gutter={[24, 24]}>
+            <Col span={8}>
+              <div className={styles.itemStatistics}>
+                <div>Today</div>
+                <div>
+                  ${getRevenueToday?.total} / {getRevenueToday?.orders} orders
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div className={styles.itemStatistics}>
-              <div>Last Week</div>
-              <div>
-                ${getRevenueLastWeek.total} / {getRevenueLastWeek.orders} orders
+            </Col>
+            <Col span={8}>
+              <div className={styles.itemStatistics}>
+                <div>Last Week</div>
+                <div>
+                  ${getRevenueLastWeek?.total} / {getRevenueLastWeek?.orders}{" "}
+                  orders
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div className={styles.itemStatistics}>
-              <div>Last Month</div>
-              <div>
-                ${getRevenueLastMonth.total} / {getRevenueLastMonth.orders}{" "}
-                orders
+            </Col>
+            <Col span={8}>
+              <div className={styles.itemStatistics}>
+                <div>Last Month</div>
+                <div>
+                  ${getRevenueLastMonth?.total} / {getRevenueLastMonth?.orders}{" "}
+                  orders
+                </div>
               </div>
+            </Col>
+          </Row>
+          <Row className={styles.chart}>
+            <ChartDashBoard months={months} dashBoard={dashBoard} />
+            <div className={styles.switch}>
+              <Switch onChange={onChange} />
             </div>
-          </Col>
-        </Row>
-        <Row className={styles.chart}>
-          <ChartDashBoard months={months} dashBoard={dashBoard} />
-          <div className={styles.switch}>
-            <Switch onChange={onChange} />
-          </div>
-        </Row>
-        <BestSellers data={dashBoard.bestsellers} />
-      </div>
+          </Row>
+          <BestSellers data={dashBoard.bestsellers} />
+        </div>
+      )}
     </MainLayout>
   );
 };

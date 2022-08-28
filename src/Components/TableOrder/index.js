@@ -7,7 +7,7 @@ const statusType = {
   Shipped: "shipped",
   Delivered: "delivered",
 };
-const TableOrders = ({ onChangeTable, data }) => {
+const TableOrders = ({ onChangeTable, data, total, page }) => {
   const dataSource = data?.map((item, index) => {
     const newArray = {
       key: index,
@@ -39,7 +39,6 @@ const TableOrders = ({ onChangeTable, data }) => {
       dataIndex: "status",
       key: "status",
       render: (_, record) => {
-        console.log("record", record);
         return (
           <div
             className={classNames(styles.status, {
@@ -55,17 +54,24 @@ const TableOrders = ({ onChangeTable, data }) => {
     },
   ];
   const onChangePage = (data) => {
-    console.log("123");
     onChangeTable(data);
   };
   return (
     <Table
       dataSource={dataSource}
       columns={columns}
+      // pagination={{
+      //   position: ["bottomLeft"],
+      //   pageSize: 10,
+      //   onChange: onChangePage,
+      // }}
       pagination={{
         position: ["bottomLeft"],
-        pageSize: 10,
+        current: page,
+        pageSize: 50,
+        total,
         onChange: onChangePage,
+        showSizeChanger: false,
       }}
     />
   );

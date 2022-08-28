@@ -1,10 +1,16 @@
 import { Layout, Menu } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import styles from "./index.module.scss";
-
 const { Sider, Content } = Layout;
 const MainLayout = ({ children }) => {
+  const location = useLocation();
+  const history = useHistory();
+  const activeKey = location.pathname === "/orders" ? "2" : "1";
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
   return (
     <Layout className={styles.mainLayout}>
       <Sider trigger={null}>
@@ -15,14 +21,20 @@ const MainLayout = ({ children }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
+          selectedKeys={[`${activeKey}`]}
           items={[
             {
               key: "1",
-              label: <Link to="/">Dashboard</Link>,
+              label: <Link to="/dashboard">Dashboard</Link>,
             },
             {
               key: "2",
               label: <Link to="/orders">Orders</Link>,
+            },
+            {
+              key: "3",
+              label: "Logout",
+              onClick: onLogout,
             },
           ]}
         />
